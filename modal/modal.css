@@ -1,0 +1,113 @@
+#modal {
+    width: 90%;
+    height: 90%;
+    background-color: lightgreen;
+    visibility: hidden;
+    z-index: 5;
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    display: grid;
+    grid-template-rows: 1fr 3fr;
+}
+
+#closeModal {
+    user-select: none;
+    cursor: pointer;
+    position: absolute;
+    top: 0.5vh;
+    right: 1vh;
+    font-family: arial;
+    font-size: 2vw;
+}
+
+#modalUpper {
+    border: dotted black 0.3vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+#currentCards {
+    display: flex;
+    gap: 2vw;
+}
+
+#currentCards>card-t {
+    width: 10vw;
+}
+
+#currentCards>card-t>img {
+    border: solid darkgreen 0.3vw;
+    border-radius: 0.6vw;
+    opacity: 0.2;
+}
+
+#chooseType {
+    display: flex;
+    justify-content: flex-end;
+    gap: 2%;
+    padding-right: 2%;
+    padding-top: 2%;
+}
+
+#chooseType>card-t>img {
+    width: 8vw;
+    border: green 0.2vw solid;
+    border-radius: 0.5vw;
+    cursor: pointer;
+}
+
+#chooseType>card-t>img:hover {
+    border: yellow 0.2vw solid;
+}
+
+#spades,
+#hearts,
+#clubs,
+#diamonds {
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    justify-content: center;
+    gap: 1%;
+    z-index: 2;
+}
+
+#spades {
+    z-index: 3;
+}
+
+.allTheCards>img {
+    width: 10vw;
+    border: green 0.2vw solid;
+    border-radius: 0.7vw;
+    cursor: pointer;
+}
+
+.allTheCards>img:hover {
+    border: yellow 0.2vw solid;
+}
+
+
+.selectedCards>img {
+    border: yellow 0.2vw solid;
+}
+
+.takenCards>img {
+    border: red 0.2vw solid;
+}
+
+#ok {
+    display: flex;
+    align-items: center;
+}
+
+#ok>button {
+    font-size: 5vw;
+    border-radius: 20vw;
+    border: green 0.2vw solid;
+}
+
+.buttonHover{
+    cursor: pointer;
+}

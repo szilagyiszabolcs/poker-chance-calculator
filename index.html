@@ -1,28 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poker chance calculator</title>
-    <script src="elements.cardmeister.min.js"></script>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="modal/modal.css">
 </head>
+
 <body>
+    <script src="elements.cardmeister.min.js"></script>
     <div id="main">
         <div id="shared-cards"></div>
-        
         <div id="hands">
-            <div id="add-player" onclick="newPlayer()">+</div>
-
+            <span class="hand" onclick="openModal()">
+                <h4 id="player1-name">Player 1</h4>
+                <span id="player1" class="cards">
+                    <card-t cid="aundefined" class="card"></card-t>
+                    <card-t cid="aundefined" class="card"></card-t>
+                </span>
+                <h4>5%</h4>
+            </span>
+            <span class="hand">
+                <h4 id="player2-name">Player 2</h4>
+                <span id="player2" class="cards">
+                    <card-t cid="aundefined" class="card"></card-t>
+                    <card-t cid="aundefined" class="card"></card-t>
+                </span>
+                <h4>5%</h4>
+            </span>
+            <span class="hand">
+                <h4 id="player3-name">Player 3</h4>
+                <span id="player3" class="cards">
+                    <card-t cid="aundefined" class="card"></card-t>
+                    <card-t cid="aundefined" class="card"></card-t>
+                </span>
+                <h4>5%</h4>
+            </span>
+            <span class="hand">
+                <h4 id="player4-name">Player 4</h4>
+                <span  id="player4" class="cards">
+                    <card-t cid="aundefined" class="card"></card-t>
+                    <card-t cid="aundefined" class="card"></card-t>
+                </span>
+                <h4>5%</h4>
+            </span>
+            <span class="hand">
+                <h4 id="player5-name">Player 5</h4>
+                <span id="player5" class="cards">
+                    <card-t cid="aundefined" class="card"></card-t>
+                    <card-t cid="aundefined" class="card"></card-t>
+                </span>
+                <h4>5%</h4>
+            </span>
+            <span class="hand">
+                <h4 id="player6-name">Player 6</h4>
+                <span id="player6" class="cards">
+                    <card-t cid="aundefined" class="card"></card-t>
+                    <card-t cid="aundefined" class="card"></card-t>
+                </span>
+                <h4>5%</h4>
+            </span>
+            <div id="add-player" onclick="openModal()">+</div>
+            
             
         </div>
-        
-        <div id="button"></div>
+
+        <div id="button">
+        </div>
     </div>
-    
-    <div id="modal"></div>
+
+    <div id="modal">
+        <div id="modalUpper">
+            <div id="currentCards">
+                <card-t class="allTheCards" id="placeholder1" cid="aundefined"
+                    onclick="removePlaceholder('placeholder1')"></card-t>
+                <card-t class="allTheCards" id="placeholder2" cid="aundefined"
+                    onclick="removePlaceholder('placeholder2')"></card-t>
+
+            </div>
+            <div id="ok">
+                <button disabled onclick="addPlayer()">
+                    OK✓
+                </button>
+            </div>
+            <div id="chooseType">
+                <card-t id="bigS" cid=As onclick="changeType('s')"></card-t>
+                <card-t id="bigH" cid=Ah onclick="changeType('h')"></card-t>
+                <card-t id="bigC" cid=Ac onclick="changeType('c')"></card-t>
+                <card-t id="bigD" cid=Ad onclick="changeType('d')"></card-t>
+            </div>
+        </div>
+        <div id="allCards">
+            <div id="spades" class="cardsOfType">
+                <card-t id="1s" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="1s"></card-t>
+                <card-t id="2s" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="2s"></card-t>
+                <card-t id="3s" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="3s"></card-t>
+                <card-t id="4s" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="4s"></card-t>
+                <card-t id="5s" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="5s"></card-t>
+                <card-t id="6s" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="6s"></card-t>
+                <card-t id="7s" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="7s"></card-t>
+                <card-t id="8s" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="8s"></card-t>
+                <card-t id="9s" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="9s"></card-t>
+                <card-t id="10s" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="10s"></card-t>
+                <card-t id="js" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="js"></card-t>
+                <card-t id="qs" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="qs"></card-t>
+                <card-t id="ks" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="ks"></card-t>
+            </div>
+            <div id="hearts" class="cardsOfType">
+                <card-t id="1h" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="1h"></card-t>
+                <card-t id="2h" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="2h"></card-t>
+                <card-t id="3h" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="3h"></card-t>
+                <card-t id="4h" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="4h"></card-t>
+                <card-t id="5h" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="5h"></card-t>
+                <card-t id="6h" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="6h"></card-t>
+                <card-t id="7h" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="7h"></card-t>
+                <card-t id="8h" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="8h"></card-t>
+                <card-t id="9h" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="9h"></card-t>
+                <card-t id="10h" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="10h"></card-t>
+                <card-t id="jh" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="jh"></card-t>
+                <card-t id="qh" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="qh"></card-t>
+                <card-t id="kh" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="kh"></card-t>
+            </div>
+            <div id="clubs" class="cardsOfType">
+                <card-t id="1c" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="1c"></card-t>
+                <card-t id="2c" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="2c"></card-t>
+                <card-t id="3c" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="3c"></card-t>
+                <card-t id="4c" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="4c"></card-t>
+                <card-t id="5c" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="5c"></card-t>
+                <card-t id="6c" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="6c"></card-t>
+                <card-t id="7c" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="7c"></card-t>
+                <card-t id="8c" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="8c"></card-t>
+                <card-t id="9c" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="9c"></card-t>
+                <card-t id="10c" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="10c"></card-t>
+                <card-t id="jc" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="jc"></card-t>
+                <card-t id="qc" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="qc"></card-t>
+                <card-t id="kc" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="kc"></card-t>
+            </div>
+            <div id="diamonds" class="cardsOfType">
+                <card-t id="1d" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="1d"></card-t>
+                <card-t id="2d" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="2d"></card-t>
+                <card-t id="3d" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="3d"></card-t>
+                <card-t id="4d" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="4d"></card-t>
+                <card-t id="5d" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="5d"></card-t>
+                <card-t id="6d" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="6d"></card-t>
+                <card-t id="7d" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="7d"></card-t>
+                <card-t id="8d" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="8d"></card-t>
+                <card-t id="9d" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="9d"></card-t>
+                <card-t id="10d" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="10d"></card-t>
+                <card-t id="jd" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="jd"></card-t>
+                <card-t id="qd" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="qd"></card-t>
+                <card-t id="kd" class="allTheCards" onclick="selectCard(this.getAttribute('cid'))" cid="kd"></card-t>
+            </div>
+        </div>
+        <span id="closeModal" onclick="closeModal()">X</span>
+    </div>
 
     <script src="main.js"></script>
+    <script src="modal/modal.js"></script>
 </body>
+
 </html>
