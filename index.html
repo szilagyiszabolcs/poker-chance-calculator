@@ -13,15 +13,29 @@
 <body>
     <script src="elements.cardmeister.min.js"></script>
     <div id="main">
-        <div id="shared-cards"></div>
+        <div id="shared-cards">
+
+
+            <card-t class="shared-card" id="shared-cards1" cid="aundefined">
+            </card-t>
+            <card-t class="shared-card" id="shared-cards2" cid="aundefined">
+            </card-t>
+            <card-t class="shared-card" id="shared-cards3" cid="aundefined">
+            </card-t>
+            <card-t class="shared-card" id="shared-cards4" cid="aundefined">
+            </card-t>
+            <card-t class="shared-card" id="shared-cards5" cid="aundefined">
+            </card-t>
+            <span onclick="sharedCardsModal()">Pick Shared Cards</span>
+        </div>
         <div id="hands">
-            <span class="hand" onclick="openModal()">
+            <span class="hand">
                 <h4 id="player1-name">Player 1</h4>
                 <span id="player1" class="cards">
                     <card-t cid="aundefined" class="card"></card-t>
                     <card-t cid="aundefined" class="card"></card-t>
                 </span>
-                <h4 id="player1-chance">5%</h4>
+                <h4 id="player1-chance"></h4>
             </span>
             <span class="hand">
                 <h4 id="player2-name">Player 2</h4>
@@ -29,7 +43,7 @@
                     <card-t cid="aundefined" class="card"></card-t>
                     <card-t cid="aundefined" class="card"></card-t>
                 </span>
-                <h4 id="player2-chance">5%</h4>
+                <h4 id="player2-chance"></h4>
             </span>
             <span class="hand">
                 <h4 id="player3-name">Player 3</h4>
@@ -37,15 +51,15 @@
                     <card-t cid="aundefined" class="card"></card-t>
                     <card-t cid="aundefined" class="card"></card-t>
                 </span>
-                <h4 id="player3-chance">5%</h4>
+                <h4 id="player3-chance"></h4>
             </span>
             <span class="hand">
                 <h4 id="player4-name">Player 4</h4>
-                <span  id="player4" class="cards">
+                <span id="player4" class="cards">
                     <card-t cid="aundefined" class="card"></card-t>
                     <card-t cid="aundefined" class="card"></card-t>
                 </span>
-                <h4 id="player4-chance">5%</h4>
+                <h4 id="player4-chance"></h4>
             </span>
             <span class="hand">
                 <h4 id="player5-name">Player 5</h4>
@@ -53,7 +67,7 @@
                     <card-t cid="aundefined" class="card"></card-t>
                     <card-t cid="aundefined" class="card"></card-t>
                 </span>
-                <h4 id="player5-chance">5%</h4>
+                <h4 id="player5-chance"></h4>
             </span>
             <span class="hand">
                 <h4 id="player6-name">Player 6</h4>
@@ -61,14 +75,15 @@
                     <card-t cid="aundefined" class="card"></card-t>
                     <card-t cid="aundefined" class="card"></card-t>
                 </span>
-                <h4 id="player6-chance">5%</h4>
+                <h4 id="player6-chance"></h4>
             </span>
-            <div id="add-player" onclick="openModal()">+</div>
-            
-            
+            <div id="add-player" onclick="openModal(2)">+</div>
+
+
         </div>
 
         <div id="button">
+            <span onclick="calc()">Calculate</span>
         </div>
     </div>
 
@@ -79,6 +94,8 @@
                     onclick="removePlaceholder('placeholder1')"></card-t>
                 <card-t class="allTheCards" id="placeholder2" cid="aundefined"
                     onclick="removePlaceholder('placeholder2')"></card-t>
+                <card-t class="allTheCards" id="placeholder3" cid="aundefined"
+                    onclick="removePlaceholder('placeholder3')"></card-t>
 
             </div>
             <div id="ok">
@@ -156,6 +173,7 @@
             </div>
         </div>
         <span id="closeModal" onclick="closeModal()">X</span>
+
     </div>
 
     <script src="main.js"></script>

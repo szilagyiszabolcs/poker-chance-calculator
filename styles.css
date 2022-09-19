@@ -50,7 +50,9 @@ h4{
     background-color: white;
     visibility: hidden;
     position: absolute;
+    border-radius: 0.8vw;
 }
+
 .visibleHand{
     position: relative;
     visibility: visible;
@@ -61,10 +63,61 @@ h4{
     width: 10vw;
 }
 
-
-#button {
-}
-
 .card {
     width: 5vw;
+}
+
+#button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#button>span {
+    width: 8vw;
+    height: 4vh;
+    background-color: white;
+    font-variant: small-caps;
+    padding: 0.5vw;
+    border-radius: 0.8vw;
+    font-size: 1vw;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+#button>span:hover {
+    font-size: 1.1vw;
+}
+#shared-cards{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2%;
+}
+.shared-card>img {
+    width: 10vw;
+    border: green 0.2vw solid;
+    border-radius: 0.7vw;
+    opacity: 0.2;
+}
+#shared-cards>span{
+    position: absolute;
+    top: 20%;
+    right: 5%;
+    width: 8vw;
+    height: 4vh;
+    background-color: white;
+    font-variant: small-caps;
+    padding: 0.5vw;
+    border-radius: 0.8vw;
+    font-size: 1vw;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+    transition: all 0.3s ease;
+}
+#shared-cards>span:hover {
+    font-size: 1.1vw;
 }

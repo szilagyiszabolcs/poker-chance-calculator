@@ -1,6 +1,7 @@
 document.addEventListener('contextmenu', event => event.preventDefault());
 var takenCards = []
 var usedNames = []
+var hands = []
 var playerCount = 0
 var currentType = "s"
 var adjacentSpaces = new RegExp('  ')
@@ -60,3 +61,95 @@ function newPlayer(first, second) {
     document.getElementById(`player${playerCount}`).children[0].cid = first
     document.getElementById(`player${playerCount}`).children[1].cid = second
 }
+
+document.addEventListener("keydown",function(event) {
+    if (modalOpened) {
+        var num = "a"
+        if (["s", "h", "c", "d"].includes(event.key)) { //choose type
+            changeType(event.key)
+        }
+        else if (["a", "2", "3", "4", "5", "6", "7", "8", "9", "1", "j", "q", "k"].includes(event.key)) { //chose number
+            if (event.key==="a") {
+                num="1"
+            }
+            else if(event.key==="1"){
+                num = "10"
+            }
+            else{
+                num=event.key
+            }
+            var currentCard=num+currentType
+            selectCard(currentCard)
+        }
+        if (event.key === "Escape") {
+            closeModal()
+        }
+        if (event.key==="Enter" && !document.getElementById("ok").children[0].disabled) {
+            addPlayer(2)
+        }
+        if (event.key==="Backspace") {
+            if (document.getElementById("placeholder2").cid=="aundefined") {
+                removePlaceholder("placeholder1")
+            }else{
+                removePlaceholder("placeholder2")
+            }
+        }
+        if (event.key==="r") {
+            randomizeHand()
+        }
+    }
+    else{
+        if (event.key===" "&& playerCount!=6) {
+            openModal(2)
+        }
+        if (event.key==="r"&&playerCount!=6) {
+            if (!confirm("Are you sure you want to randomize everything?")) {
+                return
+            }
+            x=playerCount
+            randomGeneratedList=true
+            placeholderCount=2
+            
+            for(let i=0; i<(6-x);i++){
+                randomizeHand()
+                addPlayer()
+            }
+            placeholderCount=3
+            randomizeHand()
+            addPlayer()
+            placeholderCount=1
+            randomizeHand()
+            addPlayer()
+            randomizeHand()
+            addPlayer()
+            randomGeneratedList=false
+        }
+        if (event.key === "Backspace" && playerCount != 0) {
+            let lastPlayerCards = document.querySelector(`#player${playerCount}`)
+
+            deck.push(lastPlayerCards.children[0].cid)
+            deck.push(lastPlayerCards.children[1].cid)
+
+            document.getElementById(lastPlayerCards.children[0].cid).classList.remove("takenCards")
+            document.getElementById(lastPlayerCards.children[1].cid).classList.remove("takenCards")
+
+            takenCards.splice(takenCards.indexOf(lastPlayerCards.children[0].cid, 1))
+            takenCards.splice(takenCards.indexOf(lastPlayerCards.children[1].cid, 1))
+
+            lastPlayerCards.children[0].cid = "aundefined"
+            lastPlayerCards.children[1].cid = "aundefined"
+            
+            lastPlayerCards.parentNode.classList.remove("visibleHand")
+            usedNames.splice(usedNames.length - 1, 1)
+
+            if (playerCount == 6) {
+                document.getElementById("add-player").style.display = "flex"
+                document.getElementById("add-player").style.position = "initial"
+            }
+            playerCount--
+        }
+        if (event.key === "Enter") {
+            calc()
+        }
+    }
+})
