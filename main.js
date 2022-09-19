@@ -11,45 +11,49 @@ function newPlayer(first, second) {
         document.getElementById("add-player").style.display = "none"
         document.getElementById("add-player").style.position = "relative"
     }
-    playerCount++
+    
     var name 
     var nameError = ""
     do { 
         if (!randomGeneratedList) {
             name = prompt(`${nameError}\nPlease enter your name (max 10): `)
         }else{
-            name = `rndPlayer${playerCount}`
+            name = `rndPlayer${playerCount+1}`
         }
         
         nameError = ""
-        if (usedNames.includes(name)) {
-            nameError += "This name is already in use.\n"
+        if (name != null) {
+            if (usedNames.includes(name)) {
+                nameError += "This name is already in use.\n"
+            }
+            if (name == "") {
+                nameError += "Name cannot be empty.\n"
+            }
+            if (name.length > 10) {
+                nameError += "Name cannot be longer than 10 characters.\n"
+            }
+            if (name[0] == " " || name[name.length - 1] == " ") {
+                nameError += "Name cannot start or end with space character.\n"
+            }
+            if (adjacentSpaces.test(name)) {
+                nameError += "Name cannot contain multiple adjacent space characters.\n"
+            }
+            if (forbiddenName.test(name)) {
+                nameError += "Name cannot equal a forbidden name.\n"
+            }
         }
-        if (name == "" || name == null) {
-            nameError += "Name cannot be empty.\n"
-        }
-        if (name.length > 10) {
-            nameError += "Name cannot be longer than 10 characters.\n"
-        }
-        if (name[0] == " " || name[name.length - 1] == " ") {
-            nameError += "Name cannot start or end with space character.\n"
-        }
-        if (adjacentSpaces.test(name)) {
-            nameError += "Name cannot contain multiple adjacent space characters.\n"
-        }
-        if (forbiddenName.test(name)) {
-            nameError += "Name cannot equal a forbidden name.\n"
-        }
-    } while (name == "" ||
+    } while ((
+        name == "" ||
         name == null ||
         usedNames.includes(name) ||
         name.length > 10 ||
         name[0] == " " ||
-        name[name.length - 1] == " " ||
+        name.slice(-1) == " " ||
         adjacentSpaces.test(name) ||
-        forbiddenName.test(name)
+        forbiddenName.test(name)) &&
+        !randomGeneratedList
     );
-
+    playerCount++
     usedNames.push(name)
     document.getElementById(`player${playerCount}-name`).innerText = name
     document.getElementById(`player${playerCount}`).parentNode.classList.add("visibleHand")

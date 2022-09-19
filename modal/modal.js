@@ -146,10 +146,13 @@ document.addEventListener("keydown",function(event) {
         }
     }
     else{
-        if (event.key===" "&& playerCount!=7) {
+        if (event.key===" "&& playerCount!=6) {
             openModal()
         }
-        if (event.key==="r") {
+        if (event.key==="r"&&playerCount!=6) {
+            if (!confirm("Do you want to ranomize the rest of the players?")) {
+                return
+            }
             x=playerCount
             randomGeneratedList=true
             for(let i=0; i<(6-x);i++){
@@ -180,7 +183,6 @@ document.addEventListener("keydown",function(event) {
                 document.getElementById("add-player").style.display = "flex"
                 document.getElementById("add-player").style.position = "initial"
             }
-
             playerCount--
         }
     }
