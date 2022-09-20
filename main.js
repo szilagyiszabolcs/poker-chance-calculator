@@ -8,7 +8,7 @@ var adjacentSpaces = new RegExp('  ') //regex for space in player name
 var forbiddenName = new RegExp('rndPlayer') //regex for prohibiting of rndPlayer name
 var randomGeneratedList = false //true during randomization
 function newPlayer(first, second) { //makes the player visible on the field
-    if (playerCount == 5) { //+ button diable
+    if (playerCount == 5) { //+ button disable
         document.getElementById("add-player").style.display = "none"
         document.getElementById("add-player").style.position = "relative"
     }
@@ -63,7 +63,7 @@ function newPlayer(first, second) { //makes the player visible on the field
 }
 
 document.addEventListener("keydown",function(event) {//key shortcuts
-    if (modalOpened) {
+    if (modalOpened && !inCalculation) {
         var num = "a"
         if (["s", "h", "c", "d"].includes(event.key)) { //choose type
             changeType(event.key)
