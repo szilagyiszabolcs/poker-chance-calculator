@@ -8,11 +8,13 @@ var tempStraightHand = [] //oneCycleCards without the duplicates
 var tempUsageOnly = [] // same as tempStraightHand but if there is an ace it counts as 1
 var finalPoints = [0, 0, 0, 0, 0, 0] // the overall points / player, later to calculate the chances
 var sumPoints = 0 // the sum of all the points
-function calc() {//acces via the button or shortcut
-    if (playerCount != 0) {
+function calc() { //acces via the button or shortcut
+    if (playerCount != 0 && sharedCards != 0) {
         if (!confirm("Are you sure you want to start the calculation?")) {
             return
         }
+        finalPoints = [0,0,0,0,0,0]
+        sumPoints = 0
         Calculation()
     }
 }
