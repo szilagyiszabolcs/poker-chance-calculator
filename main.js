@@ -13,16 +13,16 @@ function newPlayer(first, second) { //makes the player visible on the field
         document.getElementById("add-player").style.display = "none"
         document.getElementById("add-player").style.position = "relative"
     }
-    
-    var name 
+
+    var name
     var nameError = ""
     do { //name prompt and error handling of the name
         if (!randomGeneratedList) {
             name = prompt(`${nameError}\nPlease enter your name (max 10): `)
-        }else{
-            name = `rndPlayer${playerCount+1}`
+        } else {
+            name = `rndPlayer${playerCount + 1}`
         }
-        
+
         nameError = ""
         if (name != null) {
             if (usedNames.includes(name)) {
@@ -63,74 +63,74 @@ function newPlayer(first, second) { //makes the player visible on the field
     document.getElementById(`player${playerCount}`).children[1].cid = second
 }
 
-document.addEventListener("keydown",function(event) {//key shortcuts
-    if (modalOpened && !inCalculation) {
+document.addEventListener("keydown", function (event) {//key shortcuts
+    if (modalOpened) {
         var num = "a"
         if (["s", "h", "c", "d"].includes(event.key)) { //choose type
             changeType(event.key)
         }
         else if (["a", "2", "3", "4", "5", "6", "7", "8", "9", "1", "j", "q", "k"].includes(event.key)) { //chose number
-            if (event.key==="a") {
-                num="1"
+            if (event.key === "a") {
+                num = "1"
             }
-            else if(event.key==="1"){
+            else if (event.key === "1") {
                 num = "10"
             }
-            else{
-                num=event.key
+            else {
+                num = event.key
             }
-            var currentCard=num+currentType
+            var currentCard = num + currentType
             selectCard(currentCard)
         }
         if (event.key === "Escape") {//close modal
             closeModal()
         }
-        if (event.key==="Enter" && !document.getElementById("ok").children[0].disabled) { //press the button
+        if (event.key === "Enter" && !document.getElementById("ok").children[0].disabled) { //press the button
             addPlayer(2)
         }
-        if (event.key==="Backspace") { //undo
-            if (document.getElementById("placeholder2").cid=="aundefined") {
+        if (event.key === "Backspace") { //undo
+            if (document.getElementById("placeholder2").cid == "aundefined") {
                 removePlaceholder("placeholder1")
-            }else{
+            } else {
                 removePlaceholder("placeholder2")
             }
         }
-        if (event.key==="r") {//randomize hand
+        if (event.key === "r") {//randomize hand
             randomizeHand()
         }
     }
-    else{
-        if (event.key===" "&& playerCount!=6) {//open modal
+    else {
+        if (event.key === " " && playerCount != 6) {//open modal
             openModal(2)
         }
-        if (event.key==="r"&&playerCount!=6) { //randomize everything
+        if (event.key === "r" && playerCount != 6) { //randomize everything
             if (!confirm("Are you sure you want to randomize everything?")) {
                 return
             }
-            x=playerCount
-            randomGeneratedList=true
-            placeholderCount=2
-            
-            for(let i=0; i<(6-x);i++){
+            x = playerCount
+            randomGeneratedList = true
+            placeholderCount = 2
+
+            for (let i = 0; i < (6 - x); i++) {
                 randomizeHand()
                 addPlayer()
             }
-            if (sharedCount==0) {
-                placeholderCount=3
+            if (sharedCount == 0) {
+                placeholderCount = 3
                 randomizeHand()
                 addPlayer()
             }
-            if (sharedCount==3) {
-                placeholderCount=1
+            if (sharedCount == 3) {
+                placeholderCount = 1
                 randomizeHand()
                 addPlayer()
             }
-            if (sharedCount==4) {
-                placeholderCount=1
+            if (sharedCount == 4) {
+                placeholderCount = 1
                 randomizeHand()
                 addPlayer()
             }
-            randomGeneratedList=false
+            randomGeneratedList = false
         }
         if (event.key === "Backspace" && playerCount != 0) {//delete last player
             let lastPlayerCards = document.querySelector(`#player${playerCount}`)
@@ -140,13 +140,13 @@ document.addEventListener("keydown",function(event) {//key shortcuts
 
             document.getElementById(lastPlayerCards.children[0].cid).classList.remove("takenCards")
             document.getElementById(lastPlayerCards.children[1].cid).classList.remove("takenCards")
-            
+
             takenCards.splice(takenCards.indexOf(lastPlayerCards.children[0].cid, 1))
             takenCards.splice(takenCards.indexOf(lastPlayerCards.children[1].cid, 1))
 
             lastPlayerCards.children[0].cid = "aundefined"
             lastPlayerCards.children[1].cid = "aundefined"
-            
+
             lastPlayerCards.parentNode.classList.remove("visibleHand")
             usedNames.splice(usedNames.length - 1, 1)
 
@@ -156,7 +156,7 @@ document.addEventListener("keydown",function(event) {//key shortcuts
             }
             playerCount--
         }
-        if (event.key === "Enter") {//start the calculation
+        if (event.key === "Enter") { //start the calculation
             calc()
         }
     }

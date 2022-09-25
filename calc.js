@@ -1,7 +1,7 @@
 var tempSharedCards = [] //the shared cards
 var oneCycleCards = [] //a sorted hand [the card, its score] eg.: ["ah",14]*7 
 var tempOneCycleCards = [] // helps to sort the array of hands
-var playerHandsWithPoints = [] //lives for 1 round, its an arraz of handscore and winningcards
+var playerHandsWithPoints = [] //lives for 1 round, its an array of handscore and winningcards
 var tempFlushCards = [] // array to contain the cards of a flush
 var straightFlushTest = "s" // its to get what is the color if there is a straight flush
 var tempStraightHand = [] //oneCycleCards without the duplicates
@@ -16,7 +16,7 @@ function calc() {//acces via the button or shortcut
         Calculation()
     }
 }
-function Calculation() {//simulates all board possibilty and decides the winner in the end
+function Calculation() {//simulates all board possibilties and decides the winner(s) in the end
     finalPoints.length = playerCount
     tempSharedCards = sharedCards
     oneCycleCards = sharedCards
@@ -55,8 +55,8 @@ function Calculation() {//simulates all board possibilty and decides the winner 
 }
 
 
-function decideTheWinner(array) {//distrubets the scores according to who wins the current round
-    //array = [score , winningHand]
+function decideTheWinner(array) {//distributes the scores according to who wins the current round
+    //array = [score, winningHand]
     var max = 0
     var maxIndex = 0
     var maxArray = []
@@ -73,19 +73,19 @@ function decideTheWinner(array) {//distrubets the scores according to who wins t
         }
     }
 
-    var stillplayingHand = maxArray
+    var stillPlayingHand = maxArray
     var calcBool = false
     StrongPos = 0
     for (let i = 0; i < 5; i++) {
         for (let j = 14; j > 0; j--) {
             for (let g = 0; g < maxArray.length; g++) {
-                if (maxArray[g][1][i][1] == j && stillplayingHand.includes(maxArray[p])) {
+                if (maxArray[g][1][i][1] == j && stillPlayingHand.includes(maxArray[p])) {
                     StrongPos = maxArray[g][1][i][1]
-                    stillplayingHand.push(maxArray[g])
+                    stillPlayingHand.push(maxArray[g])
                     calcBool = true
                     for (let p = 0; p < maxArray.length; p++) {
-                        if (maxArray[p][1][i][1] != StrongPos && stillplayingHand.includes(maxArray[p])) {
-                            stillplayingHand.removeAt(p)
+                        if (maxArray[p][1][i][1] != StrongPos && stillPlayingHand.includes(maxArray[p])) {
+                            stillPlayingHand.removeAt(p)
                         }
                     }
                     break
@@ -98,8 +98,8 @@ function decideTheWinner(array) {//distrubets the scores according to who wins t
         }
     }
     for (let i = 0; i < finalPoints.length; i++) {
-        for (let j = 0; j < stillplayingHand.length; j++) {
-            if (stillplayingHand[j][0] == i) {
+        for (let j = 0; j < stillPlayingHand.length; j++) {
+            if (stillPlayingHand[j][0] == i) {
                 finalPoints[i]++
             }
         }
@@ -149,13 +149,12 @@ function whoWins() {//middle function just to be sorted
 }
 
 function SortHand(whoWinshand) { // sorts the 7 cards descending (5 shared + 2 hand)
-    tempOneCycleCards[0] = tempSharedCards[0]
-    tempOneCycleCards[1] = tempSharedCards[1]
-    tempOneCycleCards[2] = tempSharedCards[2]
-    tempOneCycleCards[3] = tempSharedCards[3]
-    tempOneCycleCards[4] = tempSharedCards[4]
+    for (let i = 0; i < 5; i++) {
+        tempOneCycleCards[i] = tempSharedCards[i]         
+    }
     tempOneCycleCards[5] = hands[whoWinshand][0]
     tempOneCycleCards[6] = hands[whoWinshand][1]
+
     for (let i = 0; i < tempOneCycleCards.length; i++) {
         var temp = tempOneCycleCards[i].substring(0, tempOneCycleCards[i].length - 1)
         switch (temp) {
@@ -198,7 +197,6 @@ function SortHand(whoWinshand) { // sorts the 7 cards descending (5 shared + 2 h
             case "1":
                 tempOneCycleCards[i] = [tempOneCycleCards[i], 14]
                 break;
-
             default:
                 break;
         }
@@ -213,14 +211,14 @@ function SortHand(whoWinshand) { // sorts the 7 cards descending (5 shared + 2 h
     }
 }
 
-function handSearch() {//decides what is the most powerful combination of cards
+function handSearch() { //decides what is the most powerful combination of cards
     var winningCardStrength //the strongest card of the 5
     var winningCardStrength2nd = 0 //the second strongest if needed
-    var pointEarningHand = 0 // the point of the hand combination
+    var pointEarningHand = 0 //the point of the hand combination
     var threeOfAKind = "" //it is needed when dealing with fullhouse, it is the card which we have 3 of
-    var top5cards // the 5 cards that together are the strongest
-    var tempUsageBool = false //its just needed if we have found a strong straight dont start lokking for the weekest straight
-    var flushCards = [] // if we have a flush it has the best
+    var top5cards //the 5 cards that together are the strongest
+    var tempUsageBool = false //its just needed if we have found a strong straight so it doesnt start looking for the weakest straight
+    var flushCards = [] //if we have a flush it has the best
 
     for (let j = 0; j < 7; j++) {
         if (customIndexOf(oneCycleCards, oneCycleCards[j][1]) == j) {
@@ -334,7 +332,7 @@ function handSearch() {//decides what is the most powerful combination of cards
         winningCardStrength = returnedArray[1]
     }
 
-    //Full House
+    //full house
     for (let i = 0; i < oneCycleCards.length - 1; i++) {
         if (threeOfAKind != "" && oneCycleCards[i][1] == oneCycleCards[i + 1][1] && threeOfAKind != oneCycleCards[i][1]) {
             if (pointEarningHand < 7) {
@@ -346,7 +344,7 @@ function handSearch() {//decides what is the most powerful combination of cards
     }
 
     switch (pointEarningHand) {
-        case 2://pair
+        case 2: //pair
             for (let i = 0; i < 7; i++) {
                 if (oneCycleCards[i][1] == winningCardStrength) {
                     oneCycleCards.splice(i, 2)
@@ -361,7 +359,7 @@ function handSearch() {//decides what is the most powerful combination of cards
                 oneCycleCards[2][1]
             ]
             break;
-        case 3://two pair
+        case 3: //two pair
             for (let i = 0; i < 7; i++) {
                 if (oneCycleCards[i][1] == winningCardStrength) {
                     oneCycleCards.splice(i, 2)
@@ -382,7 +380,7 @@ function handSearch() {//decides what is the most powerful combination of cards
                 oneCycleCards[0][1]
             ]
             break;
-        case 4://three of a kind
+        case 4: //three of a kind
             for (let i = 0; i < 7; i++) {
                 if (oneCycleCards[i][1] == winningCardStrength) {
                     oneCycleCards.splice(i, 3)
@@ -407,7 +405,7 @@ function handSearch() {//decides what is the most powerful combination of cards
                 winningCardStrength - 4
             ]
             break;
-        case 6://flush
+        case 6: //flush
             top5cards = [
                 tempFlushCards[0],
                 tempFlushCards[1],
@@ -416,7 +414,7 @@ function handSearch() {//decides what is the most powerful combination of cards
                 tempFlushCards[4]
             ]
             break;
-        case 7://full house
+        case 7: //full house
             top5cards = [
                 winningCardStrength,
                 winningCardStrength,
@@ -425,7 +423,7 @@ function handSearch() {//decides what is the most powerful combination of cards
                 winningCardStrength2nd
             ]
             break;
-        case 8://four of a kind
+        case 8: //four of a kind
             for (let i = 0; i < 7; i++) {
                 if (oneCycleCards[i][1] == winningCardStrength) {
                     oneCycleCards.splice(i, 4)
@@ -483,7 +481,7 @@ function customIndexOf(d2array, element) { //array index of by the second param
     return -1
 }
 
-function CheckStraightFlush(Cards, Color) {// as searching for straight flush is more difficult then the others we have a function for it
+function CheckStraightFlush(Cards, Color) { //as searching for straight flush is more difficult then the others we have a function for it
     var ColorOfFlush = Color
     var Flush = []
     Cards.forEach(e => {
@@ -491,9 +489,9 @@ function CheckStraightFlush(Cards, Color) {// as searching for straight flush is
             Flush.push(e)
         }
     });
-    //If there is no five of the same house, return
+    //if there is no five of the same house, return
     if (Flush.length < 5) return [0, 0]
-    //If Royal Flush
+    //if royal flush
     if (Flush[0][1] == 14 && Flush[1][1] == 13 && Flush[2][1] == 12 && Flush[3][1] == 11 && Flush[4][1] == 10) return [10, 14]
     if (Flush[0][1] == 14) Flush[0][1] = 1
     Flush.sort((a, b) => a[1] - b[1]).reverse()
