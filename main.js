@@ -1,3 +1,4 @@
+//collab github.com/szilagyiszabolcs and github.com/mcbulazs
 document.addEventListener('contextmenu', event => event.preventDefault());
 var takenCards = [] //cards that cant be drawn
 var usedNames = [] //names that are taken
