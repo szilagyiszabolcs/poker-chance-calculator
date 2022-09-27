@@ -3,17 +3,18 @@ var oneCycleCards = [] //a sorted hand [the card, its score] eg.: ["ah",14]*7
 var tempOneCycleCards = [] // helps to sort the array of hands
 var playerHandsWithPoints = [] //lives for 1 round, its an array of handscore and winningcards
 var tempFlushCards = [] // array to contain the cards of a flush
-var straightFlushTest = "s" // its to get what is the color if there is a straight flush
 var tempStraightHand = [] //oneCycleCards without the duplicates
 var tempUsageOnly = [] // same as tempStraightHand but if there is an ace it counts as 1
 var finalPoints = [0, 0, 0, 0, 0, 0] // the overall points / player, later to calculate the chances
 var sumPoints = 0 // the sum of all the points
+var needRefresh = false
 function calc() { //acces via the button or shortcut
-    if (playerCount != 0 && sharedCards != 0) {
+    if (playerCount != 0 && sharedCards != 0 && !needRefresh) {
         if (!confirm("Are you sure you want to start the calculation?")) {
             return
         }
-        finalPoints = [0,0,0,0,0,0]
+        needRefresh = true
+        finalPoints = [0, 0, 0, 0, 0, 0]
         sumPoints = 0
         Calculation()
     }
@@ -51,14 +52,16 @@ function Calculation() {//simulates all board possibilties and decides the winne
         sumPoints += finalPoints[i]
     }
     for (let i = 0; i < finalPoints.length; i++) {
-        var percetage = `${Math.round((innerText=finalPoints[i]/sumPoints)*10000)/100}%`
-        document.getElementById(`player${i+1}-chance`).innerHTML = percetage
+        var percetage = `${Math.round((innerText = finalPoints[i] / sumPoints) * 10000) / 100}%`
+        document.getElementById(`player${i + 1}-chance`).innerHTML = percetage
     }
 }
 
 
 function decideTheWinner(array) {//distributes the scores according to who wins the current round
     //array = [score, winningHand]
+    var xd = 0
+
     var max = 0
     var maxIndex = 0
     var maxArray = []
@@ -74,6 +77,15 @@ function decideTheWinner(array) {//distributes the scores according to who wins 
             maxIndex = i
         }
     }
+    if (maxArray.length == 1) {
+        finalPoints[maxIndex] += 1
+        return
+    }
+    //
+    if (maxArray.length != 1) {
+        console.log(array)
+    }
+    //
 
     var stillPlayingHand = maxArray
     var calcBool = false
@@ -93,10 +105,10 @@ function decideTheWinner(array) {//distributes the scores according to who wins 
                     break
                 }
             }
-        }
-        if (calcBool) {
-            calcBool = false
-            break;
+            if (calcBool) {
+                calcBool = false
+                break;
+            }
         }
     }
     for (let i = 0; i < finalPoints.length; i++) {
@@ -152,7 +164,7 @@ function whoWins() {//middle function just to be sorted
 
 function SortHand(whoWinshand) { // sorts the 7 cards descending (5 shared + 2 hand)
     for (let i = 0; i < 5; i++) {
-        tempOneCycleCards[i] = tempSharedCards[i]         
+        tempOneCycleCards[i] = tempSharedCards[i]
     }
     tempOneCycleCards[5] = hands[whoWinshand][0]
     tempOneCycleCards[6] = hands[whoWinshand][1]
@@ -277,7 +289,6 @@ function handSearch() { //decides what is the most powerful combination of cards
             tempStraightHand[i][1] - 3 == tempStraightHand[i + 3][1] &&
             tempStraightHand[i][1] - 4 == tempStraightHand[i + 4][1]) {
             if (pointEarningHand < 5) {
-                straightFlushTest = tempStraightHand[i + 4][0][tempStraightHand[i + 4][0].length - 1]
                 winningCardStrength = tempStraightHand[i][1]
                 pointEarningHand = 5
                 tempUsageBool = true
@@ -290,7 +301,6 @@ function handSearch() { //decides what is the most powerful combination of cards
                 tempUsageOnly[i][1] - 3 == tempUsageOnly[i + 3][1] &&
                 tempUsageOnly[i][1] - 4 == tempUsageOnly[i + 4][1]) {
                 if (pointEarningHand < 5) {
-                    straightFlushTest = tempUsageOnly[i + 4][0][tempUsageOnly[i + 4][0].length - 1]
                     winningCardStrength = tempUsageOnly[i][1]
                     pointEarningHand = 5
                 }
@@ -328,7 +338,7 @@ function handSearch() { //decides what is the most powerful combination of cards
         flushCards = []
     }
 
-    var returnedArray = CheckStraightFlush(oneCycleCards, straightFlushTest)
+    var returnedArray = CheckStraightFlush(oneCycleCards)
     if (returnedArray[0] > 8) {
         pointEarningHand = returnedArray[0]
         winningCardStrength = returnedArray[1]
@@ -483,30 +493,41 @@ function customIndexOf(d2array, element) { //array index of by the second param
     return -1
 }
 
-function CheckStraightFlush(Cards, Color) { //as searching for straight flush is more difficult then the others we have a function for it
-    var ColorOfFlush = Color
+//Gets an array of cards, where an element is an array of a string and a number
+//Checks if the hand is a Straight Flush or Royal Flush
+//Returns an array of two numbers:
+//  Straight Flush: [9, <value of high card>]
+//  Royal Flush: [10, <value of high card>]
+//  Else: [0, 0]
+function CheckStraightFlush(Cards){
+    var Colors = {}
+    Cards.forEach(e => {
+        var key = e[0].slice(-1)
+        Colors[key] = Colors[key] ? Colors[key] + 1 : 1 //Counting occurences of each house
+    });
+    //Getting the key of the highest value from Colors{}
+    var ColorOfFlush = Object.keys(Colors).reduce((a, b) => Colors[a] > Colors[b] ? a : b)
     var Flush = []
     Cards.forEach(e => {
-        if (e[0].includes(ColorOfFlush)) {
+        if(e[0].includes(ColorOfFlush)){
             Flush.push(e)
         }
     });
-    //if there is no five of the same house, return
-    if (Flush.length < 5) return [0, 0]
-    //if royal flush
-    if (Flush[0][1] == 14 && Flush[1][1] == 13 && Flush[2][1] == 12 && Flush[3][1] == 11 && Flush[4][1] == 10) return [10, 14]
-    if (Flush[0][1] == 14) Flush[0][1] = 1
-    Flush.sort((a, b) => a[1] - b[1]).reverse()
+    //If there is no five of the same house, return
+    if(Flush.length < 5) return [0, 0]
+    //If Royal Flush
+    if(Flush[0][1] == 14 && Flush[1][1] == 13 && Flush[2][1] == 12 && Flush[3][1] == 11 && Flush[4][1] == 10) return [10,14]
+    if(Flush[0][1] == 14) Flush[0][1] = 1
+    Flush.sort((a,b) => a[1] - b[1]).reverse()
     var Sequence = 1
     var SequenceStart = 0
-    for (let i = 0; i < Flush.length - 1; i++) {
-        if (Flush[i][1] - Flush[i + 1][1] == 1) {
-            if (Sequence == 1) SequenceStart = i
+    for (let i = 0; i < Flush.length-1; i++) {
+        if(Flush[i][1] - Flush[i+1][1] == 1){
+            if(Sequence == 1) SequenceStart = i
             Sequence++
-        } else if (Sequence < 5) Sequence = 1
+        } else if(Sequence < 5) Sequence = 1
     }
     Flush = Flush.slice(SequenceStart, SequenceStart + 5)
-    if (Flush.length < 5 || Sequence < 5) return [0, 0]
-    if (Flush[0][1] == 14) return [10, 14]
+    if(Sequence < 5) return [0,0]
     return [9, Flush[0][1]]
 }
